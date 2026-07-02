@@ -1,31 +1,64 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB; // ضروري لاستخدام الـ Query Builder 
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
-    public function index()
-    {
-        // جلب كل الفئات من جدول categories وترتيبها 
+    // 1. عرض القائمة (Read)
+    public function index() {
         $categories = DB::table('categories')->get();
-
         return view('categories.index', compact('categories'));
     }
 
-    public function show($id)
-    {
-        // جلب فئة واحدة باستخدام المقطع المتغير ID 
-        $category = DB::table('categories')
-            ->where('category_id', $id)
-            ->first();
+    // 2. عرض نموذج الإضافة
+    public function create() {
+        return view('categories.create');
+    }
 
-        if (!$category) {
-            abort(404);
-        }
+    // 3. تخزين البيانات مع الـ Validation
+    public function store(Request $request) {
+        // تطبيق شروط التحقق كما في الفيديو (Required, Unique, Max) 
+        $request->validate([
+            'name' => 'required|unique:categories|max:255',
+            'description' => 'nullable|max:500',
+        ], [
+            'name.required' => 'يرجى إدخال اسم الفئة',
+            'name.unique' => 'هذا الاسم موجود مسبقاً'
+        ]);
 
-        return view('categories.show', compact('category'));
+        DB::table('categories')->insert([
+            'name' => $request->name,
+            'description' => $request->description,
+            'created_at' => now(),
+        ]);
+
+        return redirect()->route('categories.index')->with('success', 'تمت الإضافة بنجاح');
+    }
+
+    // 4. عرض نموذج التعديل (Edit)
+    public function edit($id) {
+        $category = DB::table('categories')->where('category_id', $id)->first();
+        return view('categories.edit', compact('category'));
+    }
+
+    // 5. تحديث البيانات (Update) 
+    public function update(Request $request, $id) {
+        $request->validate(['name' => 'required|max:255']);
+
+        DB::table('categories')->where('category_id', $id)->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->route('categories.index')->with('success', 'تم التحديث بنجاح');
+    }
+
+    // 6. الحذف (Delete)
+    public function destroy($id) {
+        DB::table('categories')->where('category_id', $id)->delete();
+        return redirect()->route('categories.index')->with('success', 'تم الحذف بنجاح');
     }
 }
