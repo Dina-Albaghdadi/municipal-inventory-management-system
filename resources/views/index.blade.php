@@ -43,5 +43,9 @@
             @endforeach
         </tbody>
     </table>
+    <div class="mt-6 bg-white p-3 rounded shadow-sm border border-gray-200">
+    {{-- توليد روابط التنقل (التالي، السابق، وأرقام الصفحات) تلقائياً  --}}
+    {{ $data->links() }} 
+</div>
 </div>
 @endsection

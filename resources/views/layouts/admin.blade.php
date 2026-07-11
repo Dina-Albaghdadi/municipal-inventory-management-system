@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{-- إضافة وسم الحماية CSRF Token لضمان أمان الطلبات البرمجية --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}"> 
+    
     <title>نظام مستودعات بلدية غزة - @yield('title')</title>
+    
+    {{-- ربط ملفات التنسيق والبرمجة باستخدام Vite --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
@@ -21,9 +26,18 @@
         </aside>
 
         <main class="flex-1 p-6">
-            <header class="flex justify-between items-center mb-8 bg-white p-4 shadow rounded">
-                <span class="text-xl font-semibold text-gray-700">مديرية المستودعات</span>
-                <div class="text-sm text-gray-500">مرحباً بكِ، دينا نبيل</div> 
+            <header class="flex justify-between items-center p-4 bg-white shadow">
+                <span class="font-bold">نظام مستودعات بلدية غزة</span>
+                <div class="flex items-center gap-4">
+                    {{-- عرض اسم المستخدم المسجل حالياً من نظام الـ Auth  --}}
+                    <span class="text-gray-600">مرحباً، {{ Auth::user()->name }}</span>
+        
+                    {{-- زر تسجيل الخروج --}}
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="text-red-500 underline">خروج</button>
+                    </form>
+                </div>
             </header>
 
             <div class="bg-white p-6 rounded shadow-lg">

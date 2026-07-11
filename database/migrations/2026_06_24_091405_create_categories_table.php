@@ -11,12 +11,24 @@ return new class extends Migration
      */
 public function up(): void {
     Schema::create('categories', function (Blueprint $table) {
-    $table->id('category_id'); 
+        // id unsighned bigint auto increment primary 
+        $table->id('category_id');
         $table->string('name', 100);
         $table->text('description')->nullable();
-        $table->unsignedBigInteger('parent_id')->nullable();
-        $table->foreign('parent_id')->references('category_id')->on('categories')->onDelete('set null');
+         $table->unsignedBigInteger('parent_id')->nullable();
+         $table->foreign('parent_id')->references('category_id')->on('categories')->onDelete('set null');
+        
+        //$table->foreignId('parent_id')->nullable()->constrained('categories', 'id')->nullOnDelete();
         $table->timestamps();
+        //$table->string('slug')->unique();  
     });
 }
+    /**
+     * Reverse the migrations.
+    *public function down(): void
+    *{
+     *   Schema::dropIfExists('categories');
+    *}
+    */
+
 };
