@@ -1,20 +1,38 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
-    CategoryController, ItemController, WarehouseController, 
-    SupplierController, TransactionController, StockController,
-    PurchaseOrderController, TransferOrderController, UserController,
-    PoItemController, TransferItemController
+    CategoryController, 
+    ItemController, 
+    WarehouseController, 
+    SupplierController, 
+    TransactionController, 
+    StockController,
+    PurchaseOrderController, 
+    TransferOrderController, 
+    UserController,
+    PoItemController, 
+    TransferItemController
 };
 
-Route::get('/', function () { return view('welcome'); });
+Route::get('/', function () { 
+    return view('welcome'); 
+})->name('home');
 
-// تغليف كافة مسارات النظام (الـ 11 جدولاً) بالحماية 
+// مسارات لوحة التحكم المحمية
 Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     
-    Route::get('/dashboard', function () { return view('dashboard'); })->name('dashboard');
-
-    // مسارات CRUD لجميع جداول النظام لـ 
+    // المسار الرئيسي للوحة التحكم - هذا هو المسار الصحيح لدخول /admin
+    Route::get('/', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+    
+    // مسار بديل للوحة التحكم 
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard.alt');
+    
+    // مسارات CRUD لجميع جداول النظام (11 جدولاً)
     Route::resource('categories', CategoryController::class);
     Route::resource('items', ItemController::class);
     Route::resource('warehouses', WarehouseController::class);
@@ -28,4 +46,5 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::resource('transferitems', TransferItemController::class);
 });
 
+// تسجيل مسارات المصادقة (Login, Register, إلخ)
 require __DIR__.'/auth.php';

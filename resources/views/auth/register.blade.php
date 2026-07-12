@@ -1,58 +1,82 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+@extends('adminlte::auth.auth-page', ['auth_type' => 'register'])
+
+@section('auth_header', __('Register a new membership'))
+
+@section('auth_body')
+    <form action="{{ route('register') }}" method="post">
         @csrf
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
-        <!-- Username -->
-        <div class="mt-4">
-            <x-input-label for="username" :value="__('Username')" />
-            <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('username')" class="mt-2" />
-        </div>
-
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        {{-- Full Name Field --}}
+        <div class="input-group mb-3">
+            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                   value="{{ old('name') }}" placeholder="{{ __('Full name') }}" required autofocus>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-user {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                </div>
+            </div>
+            @error('name')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        {{-- حقل  Username - بدلاً من الإيميل بناءً على الـ ERD --}}
+        <div class="input-group mb-3">
+            <input type="text" name="username" class="form-control @error('username') is-invalid @enderror"
+                   value="{{ old('username') }}" placeholder="{{ __('Username') }}" required>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-user {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                </div>
+            </div>
+            @error('username')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        {{-- Password Field --}}
+        <div class="input-group mb-3">
+            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
+                   placeholder="{{ __('Password') }}" required>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-lock {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                </div>
+            </div>
+            @error('password')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
+        {{-- Password Confirmation Field --}}
+        <div class="input-group mb-3">
+            <input type="password" name="password_confirmation" class="form-control"
+                   placeholder="{{ __('Retype password') }}" required>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-lock {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                </div>
+            </div>
         </div>
+
+        {{-- Register Button --}}
+        <button type="submit" class="btn btn-primary btn-block btn-flat">
+            <span class="fas fa-user-plus"></span>
+            {{ __('Register') }}
+        </button>
     </form>
-</x-guest-layout>
+@stop
+
+@section('auth_footer')
+    <p class="my-0">
+        <a href="{{ route('login') }}">
+            {{ __('I already have a membership') }}
+        </a>
+    </p>
+@stop

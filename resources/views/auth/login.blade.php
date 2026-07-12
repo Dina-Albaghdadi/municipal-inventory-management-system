@@ -1,47 +1,75 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+@extends('adminlte::auth.auth-page', ['auth_type' => 'login'])
 
-    <form method="POST" action="{{ route('login') }}">
+@section('auth_header', __('Sign in to start your session'))
+
+@section('auth_body')
+    <form action="{{ route('login') }}" method="post">
         @csrf
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        {{-- Username - متوافق مع الـ ERD --}}
+        <div class="input-group mb-3">
+            <input type="text" name="username" class="form-control @error('username') is-invalid @enderror"
+                   value="{{ old('username') }}" placeholder="{{ __('Username') }}" required autofocus>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-user {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                </div>
+            </div>
+            @error('username')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        {{-- Password Field --}}
+        <div class="input-group mb-3">
+            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
+                   placeholder="{{ __('Password') }}" required>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-lock {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                </div>
+            </div>
+            @error('password')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
+        {{-- Sign in Button and Remember Me --}}
+        <div class="row">
+            <div class="col-8">
+                <div class="icheck-primary" title="{{ __('adminlte::adminlte.remember_me_hint') }}">
+                    <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                    <label for="remember">
+                        {{ __('Remember Me') }}
+                    </label>
+                </div>
+            </div>
+            <div class="col-4">
+                <button type="submit" class="btn btn-primary btn-block btn-flat">
+                    <span class="fas fa-sign-in-alt"></span>
+                    {{ __('Sign In') }}
+                </button>
+            </div>
         </div>
     </form>
-</x-guest-layout>
+@stop
+
+@section('auth_footer')
+    {{-- Password Reset Link --}}
+    <p class="mb-1">
+        <a href="{{ route('password.request') }}">
+            {{ __('I forgot my password') }}
+        </a>
+    </p>
+
+    {{-- Register a new membership --}}
+    <p class="mb-0">
+        <a href="{{ route('register') }}" class="text-center">
+            {{ __('Register a new membership') }}
+        </a>
+    </p>
+@stop
