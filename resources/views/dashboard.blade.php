@@ -1,17 +1,59 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('adminlte::page')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
+@section('title', 'Dashboard')
+
+@section('content_header')
+    <h1>Gaza Municipality - Inventory Dashboard</h1>
+@stop
+
+@section('content')
+    <div class="row">
+        <!-- مربع إجمالي المواد -->
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{ $totalItems }}</h3>
+                    <p>Total Items</p>
                 </div>
+                <div class="icon"><i class="fas fa-box"></i></div>
+                <a href="{{ route('items.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <!-- مربع المستودعات النشطة -->
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>{{ $activeWarehouses }}</h3>
+                    <p>Active Warehouses</p>
+                </div>
+                <div class="icon"><i class="fas fa-warehouse"></i></div>
+                <a href="{{ route('warehouses.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <!-- مربع الطلبات المعلقة -->
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>{{ $pendingOrders }}</h3>
+                    <p>Pending Orders</p>
+                </div>
+                <div class="icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                <a href="{{ route('purchase-orders.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <!-- مربع تنبيهات نقص المخزون -->
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>{{ $lowStockAlerts }}</h3>
+                    <p>Low Stock Alerts</p>
+                </div>
+                <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <a href="{{ route('stocks.index') }}" class="small-box-footer">Check Levels <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
     </div>
-</x-app-layout>
+@stop

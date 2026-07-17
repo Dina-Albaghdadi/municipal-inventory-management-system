@@ -140,6 +140,8 @@ return [
     'usermenu_desc' => false,
     'usermenu_profile_url' => false,
 
+    
+
     /*
     |--------------------------------------------------------------------------
     | Layout
@@ -261,7 +263,7 @@ return [
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
-    'password_reset_url' => 'password/reset',
+    'password_reset_url' => 'forget-password',
     'password_email_url' => 'password/email',
     'profile_url' => false,
     'disable_darkmode_routes' => false,
@@ -298,102 +300,116 @@ return [
     |
     */
 
-    'menu' => [
-        // Navbar items:
+  'menu' => [
+        // Search bar in the sidebar
         [
-            'type' => 'navbar-search',
             'text' => 'search',
-            'topnav_right' => true,
-        ],
-        [
-            'type' => 'fullscreen-widget',
-            'topnav_right' => true,
+            'search' => true,
+            'topnav' => true,
         ],
 
-        // Sidebar items:
+        // Header for general navigation
         [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
+            'header' => 'MAIN NAVIGATION',
         ],
         [
-            'text' => 'blog',
-            'url' => 'admin/blog',
-            'can' => 'manage-blog',
+            'text' => 'Dashboard',
+            'route'  => 'dashboard',
+            'icon' => 'fas fa-fw fa-tachometer-alt',
+        ],
+
+        // Municipal Inventory Section 
+        [
+            'header' => 'MUNICIPAL INVENTORY',
         ],
         [
-            'text' => 'pages',
-            'url' => 'admin/pages',
-            'icon' => 'far fa-fw fa-file',
-            'label' => 4,
+            'text' => 'Categories',
+            'route'  => 'categories.index',
+            'icon' => 'fas fa-fw fa-tags',
+        ],
+        [
+            'text' => 'Items Management',
+            'route'  => 'items.index',
+            'icon' => 'fas fa-fw fa-box-open',
+            // Label for dynamic item count 
+            'label'       => 'View All',
             'label_color' => 'success',
         ],
-        ['header' => 'account_settings'],
         [
-            'text' => 'profile',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
+            'text' => 'Warehouses',
+            'route'  => 'warehouses.index',
+            'icon' => 'fas fa-fw fa-warehouse',
         ],
         [
-            'text' => 'change_password',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
+            'text' => 'Suppliers',
+            'route'  => 'suppliers.index',
+            'icon' => 'fas fa-fw fa-truck-loading',
+        ],
+
+        // Stock & Transactions Section 
+        [
+            'header' => 'STOCK & LOGISTICS',
         ],
         [
-            'text' => 'multilevel',
-            'icon' => 'fas fa-fw fa-share',
+            'text' => 'Current Stock',
+            'route'  => 'stocks.index',
+            'icon' => 'fas fa-fw fa-clipboard-list',
+        ],
+        [
+            'text' => 'Transactions Log',
+            'route'  => 'transactions.index',
+            'icon' => 'fas fa-fw fa-history',
+        ],
+
+        // Orders & Transfers Section based on ERD 
+        [
+            'header' => 'ORDERS & TRANSFERS',
+        ],
+        [
+            'text'    => 'Purchase Orders',
+            'icon'    => 'fas fa-fw fa-file-invoice-dollar',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
+                    'text' => 'All Orders',
+                    'route'  => 'purchase-orders.index',
                 ],
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
+                    'text' => 'Order Items Details',
+                    'route'  => 'po-items.index',
                 ],
             ],
         ],
-        ['header' => 'labels'],
         [
-            'text' => 'important',
-            'icon_color' => 'red',
-            'url' => '#',
+            'text'    => 'Inventory Transfers',
+            'icon'    => 'fas fa-fw fa-exchange-alt',
+            'submenu' => [
+                [
+                    'text' => 'Transfer Orders',
+                    'route'  => 'transfer-orders.index',
+                ],
+                [
+                    'text' => 'Transferred Items',
+                    'route'  => 'transfer-items.index',
+                ],
+            ],
+        ],
+
+        // Administration & Profile Management 
+        [
+            'header' => 'ACCOUNT SETTINGS',
         ],
         [
-            'text' => 'warning',
-            'icon_color' => 'yellow',
-            'url' => '#',
+            'text' => 'Staff Management',
+            'route'  => 'users.index',
+            'icon' => 'fas fa-fw fa-users-cog',
+             'can'  => 'admin-only',
         ],
         [
-            'text' => 'information',
-            'icon_color' => 'cyan',
-            'url' => '#',
+            'text' => 'My Profile',
+            'route'  => 'profile.edit',
+            'icon' => 'fas fa-fw fa-user-edit',
         ],
     ],
-
     /*
     |--------------------------------------------------------------------------
     | Menu Filters

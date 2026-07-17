@@ -1,34 +1,35 @@
 <?php
+
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Model;
 
-class Item extends Model {
-    protected $primaryKey = 'item_id'; 
-    // تحديد جميع الحقول المسموح بتخزينها دفعة واحدة]
-    protected $fillable = ['code', 'name', 'description', 'category_id', 'unit', 'min_stock', 'max_stock', 'status'];
-    //relations
-    public function category() {
-    return $this->belongsTo(Category::class, 'category_id', 'category_id');
-}
+class Item extends Model
+{
+    protected $table = 'items';
+    protected $primaryKey = 'item_id';
+    protected $fillable = ['code', 'name', 'description', 'category_id', 'unit', 'min_stock', 'max_stock', 'reorder_level', 'status'];
 
-public function stocks() {
-    return $this->hasMany(Stock::class, 'item_id', 'item_id');
-}
-// تحويل أنواع البيانات تلقائياً (Casting)
-protected $casts = [
-    'price' => 'decimal:2',
-    'quantity' => 'integer',
-    'status' => 'boolean',
-];
+    // تحويل البيانات لضمان الدقة الحسابية (Task 7)
+    protected $casts = [
+        'min_stock' => 'decimal:2',
+        'max_stock' => 'decimal:2',
+        'reorder_level' => 'decimal:2',
+    ];
 
-// دالة (Mutator) لتنسيق الاسم قبل حفظه في القاعدة
-public function setNameAttribute(string $value) {
-    $this->attributes['name'] = ucfirst(strtolower($value));
-}
+    // Mutator: تكبير أول حرف من الاسم تلقائياً (Task 7)
+    public function setNameAttribute(string $value)
+    {
+        $this->attributes['name'] = ucfirst(strtolower($value));
+    }
 
-// دالة (Accessor) لعرض السعر مع العملة
-public function getFormattedPriceAttribute() {
-    return $this->price . ' ILS';
-}
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'category_id');
+    }
 
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class, 'item_id', 'item_id');
+    }
 }
