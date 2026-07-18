@@ -35,4 +35,15 @@ class SupplierController extends Controller
         $supplier->update($request->all());
         return redirect()->route('suppliers.index');
     }
+    public function destroy(int $id)
+{
+    // البحث عن المورد المراد حذفه باستخدام المعرف
+    $supplier = \App\Models\Supplier::findOrFail($id);
+    
+    // تنفيذ عملية الحذف من جدول suppliers
+    $supplier->delete();
+
+    // العودة لصفحة الموردين مع رسالة تأكيد
+    return redirect()->route('suppliers.index')->with('success', 'Supplier deleted successfully');
+}
 }

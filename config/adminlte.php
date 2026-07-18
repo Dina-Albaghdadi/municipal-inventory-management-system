@@ -84,11 +84,11 @@ return [
     */
 
     'auth_logo' => [
-        'enabled' => false,
+        'enabled' => true,
         'img' => [
             'path' => 'vendor/adminlte/dist/img/GazaMunicipalityLogo.png',
             'alt' => 'Auth Logo',
-            'class' => '',
+            'class' => 'img-circle',
             'width' => 50,
             'height' => 50,
         ],
@@ -259,7 +259,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'dashboard',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
