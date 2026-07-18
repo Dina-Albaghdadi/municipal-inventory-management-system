@@ -5,7 +5,7 @@
 <div class="card">
     <div class="card-body">
         <table class="table table-hover table-bordered text-center">
-            <thead class="thead-dark">
+            <thead>
                 <tr>
                     <th>Warehouse</th><th>Item Name</th><th>Quantity</th><th>Reserved</th><th>Unit Cost</th><th>Last Updated</th><th>Details</th>
                 </tr>
