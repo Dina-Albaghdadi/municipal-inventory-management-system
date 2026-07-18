@@ -20,14 +20,11 @@ class PasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // التحقق من وجود الإيميل في جدول users بناءً على الـ ERD [1]
+            // التحقق من وجود الإيميل في جدول users بناءً على الـ 
             'email' => ['required', 'email', 'exists:users,email'],
         ];
     }
 
-    /**
-     * تخصيص رسائل الخطأ بالإنجليزية لتناسب تقاريرك الفنية.
-     */
     public function messages(): array
     {
         return [
