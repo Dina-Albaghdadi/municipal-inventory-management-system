@@ -21,14 +21,17 @@ class UserController extends Controller
         return view('users.create', compact('warehouses'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'username' => 'required|unique:users,username',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8',
-            'role' => 'required|in:Admin,Manager,Worker'
-        ]);
+public function store(Request $request)
+{
+    $request->validate([
+        'username'  => 'required|string|max:50|unique:users,username',
+        'name'      => 'required|string|max:255',
+        'full_name' => 'required|string|max:100', 
+        'email'     => 'required|email|max:255|unique:users,email',
+        'password'  => 'required|min:8',
+        'role'      => 'required|in:Admin,Manager,Worker', 
+        'warehouse_id' => 'nullable|exists:warehouses,warehouse_id'
+    ]);
 
         User::create([
             'username' => $request->username,
@@ -41,7 +44,7 @@ class UserController extends Controller
             'status' => 'Active'
         ]);
 
-        return redirect()->route('users.index');
+    return redirect()->route('users.index')->with('success', 'User created successfully');
     }
 
     public function edit(User $user)
