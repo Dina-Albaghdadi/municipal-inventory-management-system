@@ -21,7 +21,7 @@
                 <div class="col-md-4 form-group"><label>Phone</label><input type="text" name="phone" class="form-control"></div>
             </div>
             <div class="row">
-                <div class="col-md-6 form-group"><label>Capacity (Decimal)</label><input type="number" step="00.10" name="capacity" class="form-control"></div>
+                <div class="col-md-6 form-group"><label>Capacity (Decimal)</label><input type="number" step="0.01" name="capacity" class="form-control"></div>
                 <div class="col-md-6 form-group"><label>Status</label><select name="status" class="form-control"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
             </div>
         </div>

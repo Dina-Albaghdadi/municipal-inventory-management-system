@@ -15,6 +15,12 @@ class PurchaseOrder extends Model
         'order_date' => 'datetime',
         'expected_date' => 'datetime',
     ];
+    public function items() 
+    {
+    // ربط جدول الطلبات بجدول الأصناف عبر الجدول الوسيط po_items
+    return $this->belongsToMany(Item::class, 'po_items', 'po_id', 'item_id')
+                ->withPivot(['quantity', 'unit_price', 'received_qty']);
+    }
 
     public function supplier()
     {
@@ -31,3 +37,4 @@ class PurchaseOrder extends Model
         return $this->hasMany(PoItem::class, 'po_id', 'po_id');
     }
 }
+

@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\TransferOrder;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
@@ -20,9 +18,30 @@ class TransferOrderController extends Controller
         return view('transfer_orders.create', compact('warehouses'));
     }
 
-    public function show(TransferOrder $transferOrder)
+    public function store(Request $request)
     {
-        $transferOrder->load('transferItems.item');
-        return view('transfer_orders.show', compact('transferOrder'));
+        $validated = $request->validate([
+            'transfer_no' => 'required|unique:transfer_orders',
+            'from_warehouse_id' => 'required',
+            'to_warehouse_id' => 'required|different:from_warehouse_id',
+            'transfer_date' => 'required|date',
+        ]);
+
+        $transfer = new TransferOrder();
+        $transfer->transfer_no = $request->transfer_no;
+        $transfer->from_warehouse_id = $request->from_warehouse_id;
+        $transfer->to_warehouse_id = $request->to_warehouse_id;
+        $transfer->transfer_date = $request->transfer_date;
+        $transfer->status = 'Draft'; 
+        $transfer->notes = $request->notes;
+        $transfer->save();
+
+        return redirect()->route('transfer-orders.index')->with('success', 'Transfer created successfully!');
+    }
+
+    public function show(int $id)
+    {
+        $transfer = TransferOrder::with(['fromWarehouse', 'toWarehouse', 'approver', 'items'])->findOrFail($id);
+        return view('transfer_orders.show', compact('transfer'));
     }
 }

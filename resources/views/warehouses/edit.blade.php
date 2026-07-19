@@ -8,6 +8,14 @@
         <div class="card-body">
             <div class="form-group"><label>Warehouse Name</label><input type="text" name="name" value="{{ $warehouse->name }}" class="form-control" required></div>
             <div class="form-group"><label>Location</label><input type="text" name="location" value="{{ $warehouse->location }}" class="form-control"></div>
+            <div class="form-group"><label>Type</label>
+                <select name="type" class="form-control" required>
+                    <option value="Main" {{ $warehouse->type == 'Main' ? 'selected' : '' }}>Main</option>
+                    <option value="Sub" {{ $warehouse->type == 'Sub' ? 'selected' : '' }}>Sub</option>
+                    <option value="Cold" {{ $warehouse->type == 'Cold' ? 'selected' : '' }}>Cold</option>
+                    <option value="Temporary" {{ $warehouse->type == 'Temporary' ? 'selected' : '' }}>Temporary</option>
+                </select>
+            </div>
             <div class="form-group"><label>Manager Name</label><input type="text" name="manager_name" value="{{ $warehouse->manager_name }}" class="form-control"></div>
             <div class="form-group"><label>Status</label>
                 <select name="status" class="form-control">
