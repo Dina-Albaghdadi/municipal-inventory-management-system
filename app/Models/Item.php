@@ -10,14 +10,12 @@ class Item extends Model
     protected $primaryKey = 'item_id';
     protected $fillable = ['code', 'name', 'description', 'category_id', 'unit', 'min_stock', 'max_stock', 'reorder_level', 'status'];
 
-    // تحويل البيانات لضمان الدقة الحسابية (Task 7)
     protected $casts = [
         'min_stock' => 'decimal:2',
         'max_stock' => 'decimal:2',
         'reorder_level' => 'decimal:2',
     ];
 
-    // Mutator: تكبير أول حرف من الاسم تلقائياً (Task 7)
     public function setNameAttribute(string $value)
     {
         $this->attributes['name'] = ucfirst(strtolower($value));

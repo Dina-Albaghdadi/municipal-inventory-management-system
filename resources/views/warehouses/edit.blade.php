@@ -14,6 +14,7 @@
                     <option value="Sub" {{ $warehouse->type == 'Sub' ? 'selected' : '' }}>Sub</option>
                     <option value="Cold" {{ $warehouse->type == 'Cold' ? 'selected' : '' }}>Cold</option>
                     <option value="Temporary" {{ $warehouse->type == 'Temporary' ? 'selected' : '' }}>Temporary</option>
+            
                 </select>
             </div>
             <div class="form-group"><label>Manager Name</label><input type="text" name="manager_name" value="{{ $warehouse->manager_name }}" class="form-control"></div>
