@@ -17,7 +17,6 @@ class PurchaseOrder extends Model
     ];
     public function items() 
     {
-    // ربط جدول الطلبات بجدول الأصناف عبر الجدول الوسيط po_items
     return $this->belongsToMany(Item::class, 'po_items', 'po_id', 'item_id')
                 ->withPivot(['quantity', 'unit_price', 'received_qty']);
     }
