@@ -1,59 +1,71 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Municipal Inventory Management System (MIMS) - Gaza Municipality
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+MIMS is a professional-grade inventory management platform developed using **Laravel 11** as part of the Field Training program at **Gaza Municipality (IT Department)** It is designed to mirror corporate standards by shifting from basic data entry to a fully governed administrative system that manages the entire lifecycle of municipal goods—from procurement to warehouse transfers.
 
-## About Laravel
+![Project Banner](public/vendor/adminlte/dist/img/Project-Banner.png)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 1. Database Architecture & Schema
+The system is built on a robust database consisting of **11 interconnected tables**, covering Categories, Items, Warehouses, Suppliers, Users, Stock, Transactions, Purchase Orders, and Transfers.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+*   **Data Integrity:** Heavily reliant on Foreign Keys to ensure consistent and interconnected records.
+*   **Precision:** Utilizes the `Decimal (10,2)` data type for all quantities and costs to maintain financial accuracy and prevent accounting discrepancies.
 
-## Learning Laravel
+![Database ERD](public/vendor/adminlte/dist/img/Municipal-Inventory-ERD.png)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 2. Advanced Backend Logic (Laravel 11)
+The project leverages the full power of **Laravel 11** to handle complex municipal logistics:
+*   **Eloquent ORM:** Implements advanced One-to-Many and Inverse Relationships across all 11 tables for seamless data navigation.
+*   **Data Transformation:** Uses **Attribute Casting**, **Mutators**, and **Accessors** to ensure high inventory precision and standardized data entry.
+*   **Mass Assignment Protection:** Every model is secured via the `$fillable` property to prevent malicious data injection.
 
-## Laravel Sponsors
+![Backend Logic Snippet](public/vendor/adminlte/dist/img/Backend-Logic-Snippet.png)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 3. System Governance & Security (RBAC)
+Security is a top priority, ensuring that only authorized personnel can access sensitive inventory data.
+*   **Role-Based Access Control (RBAC):** Defined roles for **Admin, Manager, and Worker** managed through custom Middleware and Laravel Gates.
+*   **Authentication:** Integrated **Laravel Breeze** with a customized **Email-based login** to align with the municipality's administrative requirements.
+*   **CSRF Protection:** All administrative routes and forms are secured against cross-site request forgery.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+![Security & Permissions](public/vendor/adminlte/dist/img/Security&Permissions1.png)
+![Security & Permissions](public/vendor/adminlte/dist/img/Security&Permissions2.png)
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 4. Operational Excellence & UI/UX
+The user interface is built using the **AdminLTE 3** template, providing a professional and localized experience for staff.
+*   **Live Dashboard:** A dynamic command center featuring an **automated Low Stock Alert system** that applies engineering logic to monitor inventory levels.
+*   **Scalability:** Implements **Server-side Pagination** to handle high volumes of municipal data efficiently.
+*   **Master Layouts:** Utilizes unified Blade templating for consistent Header, Sidebar, and Footer navigation.
 
-## Code of Conduct
+![Dashboard Preview](public/vendor/adminlte/dist/img/Dashboard-Preview.png)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 5. Master-Detail Order Management
+Specialized handling for **Purchase Orders** and **Warehouse Transfers** using a Master-Detail structure:
+*   **Header-Detail Separation:** General info is stored in header tables, while specific goods are listed in detail tables (e.g., `po_items`).
+*   **Transfer Oversight:** Tracks requested vs. transferred quantities across multiple warehouses with real-time stock updates.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+![Order Management System](public/vendor/adminlte/dist/img/Order-Management-System.png)
+![Warehouse Management](public/vendor/adminlte/dist/img/Warehouse-Management.png)
+![Suppliers](public/vendor/adminlte/dist/img/Suppliers.png)
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+---
+
+## Technical Stack
+*   **Framework:** Laravel 11.x
+*   **Database:** MySQL / MariaDB (managed via XAMPP)
+*   **Frontend:** Blade Engine, Vite, AdminLTE 3
+*   **Tools:** Eloquent ORM, Laravel Breeze, PHP Artisan
+
+---
+**Developed by:** Dina Nabil Albaghdadi  
+**Organization:** Gaza Municipality (IT Department)
